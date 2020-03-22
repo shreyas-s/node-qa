@@ -13,7 +13,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 
-// app.get('/', (req, res) => res.send('Hello World! its vanshaj'));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,10 +23,7 @@ app.use(bodyParser.json());
 app.use('/user', userController);
 app.use('/qa',QuestionController);
 
-// app.get('/', (req, res) => res.send('Hello World! its vanshaj'));
-// app.get('/client.js', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, '../assets/clientbundle.js'));
-// });
+
 app.get('/home', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
