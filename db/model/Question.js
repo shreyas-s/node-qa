@@ -1,4 +1,4 @@
-var { AnswerOptionSchema } = require ('./AnswerOptionSchema');
+var { AnswerSchema } = require ('./AnswerSchema');
 var { mongoose } = require('../mongoose_connection');
 var validator = require('validator');
 const QuestionSchema = new mongoose.Schema({
@@ -7,9 +7,9 @@ const QuestionSchema = new mongoose.Schema({
     minlength: 10,
     maxlength: 1000,
   },
-  answerOptions: {
-    type: [AnswerOptionSchema],
-    default: undefined,
+  answer: {
+    type: [AnswerSchema],
+ //   default: undefined,
     validate: {
       validator: function(value) {
         return value && value.length === 4;

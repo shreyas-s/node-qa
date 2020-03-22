@@ -2,7 +2,7 @@
 var express = require('express');
 //import User from '../db/model/user';
 var { Question } = require('../db/model/Question');
-var { AnswerOptionSchema } = require('../db/model/AnswerOptionSchema');
+var { AnswerSchema } = require('../db/model/AnswerSchema');
 
 const { ObjectId } = require('mongodb').ObjectID;
 
@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/create', (req, resp) => {
   const { question, AnswerOption,company_details } = req.body;
-  var ans = [];
+  var answer = [];
   for(i in AnswerOption){
     
   // Data to pass sample given  below:
@@ -18,22 +18,28 @@ router.post('/create', (req, resp) => {
   {
 "question":"sample interview Q",
 "AnswerOption": [
-    { "optionNumber":1, "answerBody":"Sample A" , "isCorrectAnswer": 0},
-    { "optionNumber":2, "answerBody":"Sample B" , "isCorrectAnswer": 1},
-    { "optionNumber":3, "answerBody":"Sample C" , "isCorrectAnswer": 0},
-     { "optionNumber":4, "answerBody":"Sample E" , "isCorrectAnswer": 0}
+    { "optionNum":1, "content":"Sample A" , "isAnswer": 0},
+    { "optionNum":2, "content":"Sample B" , "isAnswer": 1},
+    { "optionNum":3, "content":"Sample C" , "isAnswer": 0},
+     { "optionNum":4, "content":"Sample E" , "isAnswer": 0}
   ],
   "company_details": "IBM"
 }*/
-  ans[i] = {
-    "optionNumber": AnswerOption[i].optionNumber,
-    "answerBody": AnswerOption[i].answerBody,
-    "isCorrectAnswer": AnswerOption[i].isCorrectAnswer
+var { optionNum , content , isAnswer } = AnswerOption[i];
+  /*answer[i] = {
+    "optionNum": AnswerOption[i].optionNum,
+    "content": AnswerOption[i].content,
+    "isAnswer": AnswerOption[i].isAnswer
+};*/
+answer[i] = {
+    optionNum,
+    content,
+    isAnswer
 };
 }
   const qst = new Question({
     question,
-    answerOptions: ans,
+    answer,
     company_details
   });
 
@@ -41,11 +47,11 @@ router.post('/create', (req, resp) => {
     .save()
     .then((res) => {
       console.log('saved user ', res);
-      resp.status(200).send('User Created Successfully');
+      resp.status(200).send('Question Created Successfully');
     })
     .catch((e) => {
       console.log('error', e);
-      resp.status(500).send('Error Occured while saving User');
+      resp.status(500).send('Error Occured while saving Question');
     });
 });
 
